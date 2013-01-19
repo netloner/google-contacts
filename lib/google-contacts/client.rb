@@ -43,6 +43,9 @@ module GContacts
       raise ArgumentError, "Unsupported type given" unless uri
 
       response = http_request(:get, URI(uri[:all] % (args.delete(:type) || :full)), args)
+      #Old Nori fix
+      Nori.convert_tags_to( lambda { |tag| tag.to_s })
+      
       List.new(Nori.parse(response, :nokogiri))
     end
 
